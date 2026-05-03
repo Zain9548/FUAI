@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // app/api/generate/route.ts
 // POST /api/generate — core AI generation endpoint
 

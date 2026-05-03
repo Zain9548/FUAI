@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // app/api/history/route.ts
 // GET /api/history — paginated request history for current user
 // DELETE /api/history?id=xxx — delete a request

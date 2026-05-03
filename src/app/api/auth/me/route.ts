@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // app/api/auth/me/route.ts
 // GET /api/auth/me — return current authenticated user
 

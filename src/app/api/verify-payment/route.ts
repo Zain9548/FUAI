@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // app/api/verify-payment/route.ts
 // POST /api/verify-payment
 // Verifies Razorpay HMAC signature and upgrades user subscription

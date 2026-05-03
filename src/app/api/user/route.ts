@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 // app/api/user/route.ts
 // PATCH /api/user — update user profile
 
