@@ -1,5 +1,6 @@
 // app/api/auth/signup/route.ts
 // POST /api/auth/signup — create new user account
+export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'

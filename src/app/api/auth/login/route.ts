@@ -1,5 +1,6 @@
 // app/api/auth/login/route.ts
 // POST /api/auth/login — authenticate existing user
+export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'

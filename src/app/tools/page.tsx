@@ -3,7 +3,7 @@
 
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { TOOLS } from '@/lib/ai'
@@ -12,7 +12,7 @@ import type { ToolType } from '@/types'
 import { cn } from '@/lib/utils'
 import { Translator } from '@/components/Translator'
 
-export default function ToolsPage() {
+function ToolsContent() {
   const searchParams = useSearchParams()
   const defaultTool = (searchParams.get('tool') as ToolType) || 'rewrite'
 
@@ -207,5 +207,13 @@ export default function ToolsPage() {
         </div>
       )}
     </div>
+  )
+}
+
+export default function ToolsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-surface flex items-center justify-center text-white">Loading tools...</div>}>
+      <ToolsContent />
+    </Suspense>
   )
 }

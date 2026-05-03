@@ -3,7 +3,7 @@
 
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
@@ -25,7 +25,7 @@ const PLAN_DETAILS = {
   },
 }
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const planId = (searchParams.get('plan') || 'pro') as 'pro' | 'enterprise'
@@ -162,5 +162,13 @@ export default function SuccessPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-surface flex items-center justify-center text-white">Loading...</div>}>
+      <SuccessContent />
+    </Suspense>
   )
 }
