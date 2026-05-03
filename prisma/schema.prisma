@@ -1,0 +1,67 @@
+// FUAI - Prisma Schema
+// Defines: User, Request (AI history), Subscription
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── User ─────────────────────────────────────────────────────────────────────
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String?
+  passwordHash  String?
+  avatarUrl     String?
+  provider      String   @default("email") // "email" | "google"
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  requests      Request[]
+  subscription  Subscription?
+
+  @@map("users")
+}
+
+// ─── Request (AI generation history) ─────────────────────────────────────────
+model Request {
+  id         String   @id @default(cuid())
+  userId     String
+  toolType   String   // e.g. "rewrite", "summarize", "expand", "translate"
+  inputText  String   @db.Text
+  outputText String   @db.Text
+  model      String   @default("gpt-3.5-turbo")
+  tokens     Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("requests")
+}
+
+// ─── Subscription ─────────────────────────────────────────────────────────────
+model Subscription {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  plan         String   @default("free")   // "free" | "pro" | "enterprise"
+  requestsUsed Int      @default(0)
+  requestLimit Int      @default(20)        // free = 20/month
+  resetAt      DateTime @default(now())     // monthly reset date
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+model History {
+  id        String   @id @default(uuid())
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+}
